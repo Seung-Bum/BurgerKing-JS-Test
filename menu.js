@@ -61,9 +61,10 @@ xPurBtns.forEach(purBtn => {
 
         // targetMenu로 저장됨
         const targetMenu = menus[idx]
-        const targetPicture = targetMenu.picture
 
-        let str = `<img src="${targetPicture}" text-align="center">`
+        let str = `<img src="${targetMenu.picture}" style="float: right; width:150px; height:100px;"><br>
+                    <h3>${targetMenu.name}</h3><br>
+                    <h3>${targetMenu.price}</h3>`
 
         modal.innerHTML = str
 
