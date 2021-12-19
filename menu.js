@@ -58,5 +58,18 @@ xPurBtns.forEach(purBtn => {
         //상품의 저장되 있던 idx값을 idx변수에 저장
         const idx = purBtnData.getAttribute("data-idx")
         console.log("IDX: " + idx)
+
+        // targetMenu로 저장됨
+        const targetMenu = menus[idx]
+        const targetPicture = targetMenu.picture
+
+        let str = `<img src="${targetPicture}" text-align="center">`
+
+        modal.innerHTML = str
+
+        // modal의 img를 targetPicture으로 변경
+        // popEle.querySelector("img").setAttribute("src", targetPicture)
+
+
     }, false);
 });
