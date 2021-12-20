@@ -6,6 +6,10 @@ const menus = [
     {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg'}
 ]
 
+const orders = [
+
+]
+
 
 // 메뉴리스트 생성
 const menuList = document.querySelector("#menuList")
@@ -34,26 +38,24 @@ for (let i = 0; i < menus.length; i++) {
 }
 menuList.innerHTML = str
 
+
 // 모달창 body
 const modal = document.querySelector("#orderDiv .modal-dialog .modal-content .modal-body")
 
 // 모달창 이벤트 생성
-// 구매버튼에서 상품 idx추출
 const xPurBtns = document.querySelectorAll("#purId")
-
-console.log(xPurBtns)
-
 
 xPurBtns.forEach(purBtn => {
 	purBtn.addEventListener("click", function (e) {
-        console.log("실행")
+
+        let str = ""
 
         //클릭한 요소값을 가져옴
         const target = e.target
-        console.log("TARGET: " + target)
+        // console.log("TARGET: " + target)
 
         const purBtnData = target.closest("#xBtn-group")
-        console.log(purBtnData)
+        // console.log(purBtnData)
 
         //상품의 저장되 있던 idx값을 idx변수에 저장
         const idx = purBtnData.getAttribute("data-idx")
@@ -62,15 +64,28 @@ xPurBtns.forEach(purBtn => {
         // targetMenu로 저장됨
         const targetMenu = menus[idx]
 
-        let str = `<img src="${targetMenu.picture}" style="float: right; width:150px; height:100px;"><br>
-                    <h3>${targetMenu.name}</h3><br>
-                    <h3>${targetMenu.price}</h3>`
+        
+        orders.push(targetMenu)
+        console.log(orders)
+
+        for (let i = 0; i < orders.length; i++) {
+
+            const order = orders[i]
+
+            str += `<div class="d-flex justify-content-center">
+            <div class="card" style="width: 10rem;">
+            <img src="${order.picture}" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">${order.name}</h5>
+              <p class="card-text">${order.price}</p>
+                <div class="row">
+                    <a href="#" class="btn btn-secondary">Add</a>
+                    <a href="#" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+          </div>`
+        }
 
         modal.innerHTML = str
-
-        // modal의 img를 targetPicture으로 변경
-        // popEle.querySelector("img").setAttribute("src", targetPicture)
-
-
     }, false);
 });
