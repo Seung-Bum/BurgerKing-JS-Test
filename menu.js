@@ -6,9 +6,7 @@ const menus = [
     {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg'}
 ]
 
-const orders = [
-
-]
+const orders = []
 
 
 // 메뉴리스트 생성
