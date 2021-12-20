@@ -2,7 +2,7 @@
 const menus = [
     {name:'Shrimp Whopper', price:6900, picture:'img/shrimp.jpg'},
     {name:'Quattro Cheese', price:7900, picture:'img/quattroCheese.jpg'},
-    {name:'Monster', price:9500, picture:'img/monster.jpg'},
+    {name:'Monster Burger', price:9500, picture:'img/monster.jpg'},
     {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg'}
 ]
 
