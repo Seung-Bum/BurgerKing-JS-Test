@@ -3,7 +3,11 @@ const menus = [
     {name:'Shrimp Whopper', price:6900, picture:'img/shrimp.jpg'},
     {name:'Quattro Cheese', price:7900, picture:'img/quattroCheese.jpg'},
     {name:'Monster Burger', price:9500, picture:'img/monster.jpg'},
-    {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg'}
+    {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg'},
+    {name:'Bacon Cheese', price:6500, picture:'img/baconCheese.jpg'},
+    {name:'Long Chicken', price:4400, picture:'img/longChicken.jpg'},
+    {name:'Kings Chicken', price:2900, picture:'img/kingChicken.jpg'},
+    {name:'Mushroom Bulgogi', price:6500, picture:'img/mushroomBulgogi.jpg'}
 ]
 
 const orders = []
@@ -43,6 +47,8 @@ const modal = document.querySelector("#orderDiv .modal-dialog .modal-content .mo
 // 모달창 이벤트 생성
 const xPurBtns = document.querySelectorAll("#purId")
 
+
+
 xPurBtns.forEach(purBtn => {
 	purBtn.addEventListener("click", function (e) {
 
@@ -62,12 +68,23 @@ xPurBtns.forEach(purBtn => {
         // targetMenu로 저장됨
         const targetMenu = menus[idx]
 
-        
+        for (let i = 0; i < orders.length; i++) {
+
+            if (7 < orders.length) {
+                return alert('The order list is too long. please start over!')
+            }
+            
+            if (targetMenu == orders[i]) {
+                return alert('There is already a product in your order list.')
+            }
+            
+        }
+
         orders.push(targetMenu)
         console.log(orders)
 
         for (let i = 0; i < orders.length; i++) {
-
+            
             const order = orders[i]
 
             str += `<div class="d-flex justify-content-center">
@@ -75,15 +92,50 @@ xPurBtns.forEach(purBtn => {
             <img src="${order.picture}" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">${order.name}</h5>
-              <p class="card-text">${order.price}</p>
-                <div class="row">
-                    <a href="#" class="btn btn-secondary">Add</a>
-                    <a href="#" class="btn btn-secondary">Cancel</a>
+              <div class="row" id="infoDiv">
+                <div class="card-text">${order.price}&#8361;</div>
+                <div id="xCount"></div>
+              </div>
+                <div class="row" id="xNum" data-count="1" data-targetNum="${idx}">
+                    <a href="#" id="btn-add" class="btn btn-secondary">Add</a>
+                    <a href="#" id="btn-cancel" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
           </div>`
         }
 
         modal.innerHTML = str
+
+
+        let count = 1
+
+        $(document).ready(function() {
+            $(document).on("click",'#btn-add', function(e){
+                e.stopPropagation()
+                e.preventDefault()
+
+        //클릭한 요소값을 가져옴
+        const target = e.target
+        console.log("TARGET_Add-btn: " + target)
+
+        const xNum = target.closest("#xNum")
+        console.log(xNum)
+
+        // //상품의 저장되 있던 idx값을 idx변수에 저장
+        // const idx = purBtnData.getAttribute("data-idx")
+        // console.log("IDX: " + idx)
+
+        count++
+
+        document.getElementById('xCount')['data-count'] = count
+
+        console.log(document.getElementById('xCount')['data-count'])
+
+            })
+        }, false)
+
     }, false);
 });
+
+
+
