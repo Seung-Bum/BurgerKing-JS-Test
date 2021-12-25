@@ -1,17 +1,18 @@
 // 메뉴배열
 const menus = [
-    {name:'Shrimp Whopper', price:6900, picture:'img/shrimp.jpg'},
-    {name:'Quattro Cheese', price:7900, picture:'img/quattroCheese.jpg'},
-    {name:'Monster Burger', price:9500, picture:'img/monster.jpg'},
-    {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg'},
-    {name:'Bacon Cheese', price:6500, picture:'img/baconCheese.jpg'},
-    {name:'Long Chicken', price:4400, picture:'img/longChicken.jpg'},
-    {name:'Kings Chicken', price:2900, picture:'img/kingChicken.jpg'},
-    {name:'Mushroom Bulgogi', price:6500, picture:'img/mushroomBulgogi.jpg'}
+    {name:'Shrimp Whopper', price:6900, picture:'img/shrimp.jpg', count: [1]},
+    {name:'Quattro Cheese', price:7900, picture:'img/quattroCheese.jpg', count: [1]},
+    {name:'Monster Burger', price:9500, picture:'img/monster.jpg', count: [1]},
+    {name:'Bulgogi Whopper', price:6500, picture:'img/bulgogiWhopper.jpg', count: [1]},
+    {name:'Bacon Cheese', price:6500, picture:'img/baconCheese.jpg', count: [1]},
+    {name:'Long Chicken', price:4400, picture:'img/longChicken.jpg', count: [1]},
+    {name:'Kings Chicken', price:2900, picture:'img/kingChicken.jpg', count: [1]},
+    {name:'Mushroom Bulgogi', price:6500, picture:'img/mushroomBulgogi.jpg', count: [1]}
 ]
 
 const orders = []
 
+const carts = []
 
 // 메뉴리스트 생성
 const menuList = document.querySelector("#menuList")
@@ -48,7 +49,6 @@ const modal = document.querySelector("#orderDiv .modal-dialog .modal-content .mo
 const xPurBtns = document.querySelectorAll("#purId")
 
 
-
 xPurBtns.forEach(purBtn => {
 	purBtn.addEventListener("click", function (e) {
 
@@ -64,6 +64,9 @@ xPurBtns.forEach(purBtn => {
         //상품의 저장되 있던 idx값을 idx변수에 저장
         const idx = purBtnData.getAttribute("data-idx")
         console.log("IDX: " + idx)
+
+        carts.push(idx)
+        console.log("CARTS: " + carts)
 
         // targetMenu로 저장됨
         const targetMenu = menus[idx]
@@ -94,10 +97,10 @@ xPurBtns.forEach(purBtn => {
               <h5 class="card-title">${order.name}</h5>
               <div class="row" id="infoDiv">
                 <div class="card-text">${order.price}&#8361;</div>
-                <div id="xCount"></div>
+                <div class="xCountClass" id="xCount${i}">${order.count[0]}EA</div>
               </div>
-                <div class="row" id="xNum" data-count="1" data-targetNum="${idx}">
-                    <a href="#" id="btn-add" class="btn btn-secondary">Add</a>
+                <div class="row" id="xNum">
+                    <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
                     <a href="#" id="btn-cancel" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
@@ -107,35 +110,43 @@ xPurBtns.forEach(purBtn => {
         modal.innerHTML = str
 
 
-        let count = 1
-
         $(document).ready(function() {
             $(document).on("click",'#btn-add', function(e){
-                e.stopPropagation()
+                e.stopImmediatePropagation()
                 e.preventDefault()
+        
+                //클릭한 요소값을 가져옴
+                const target = e.target
+                const dataNum = target.getAttribute("data-targetNum")
+                console.log(target)
+                console.log("dataNum: ", dataNum)
 
-        //클릭한 요소값을 가져옴
-        const target = e.target
-        console.log("TARGET_Add-btn: " + target)
+                for (let i = 0; i < carts.length; i++) {
 
-        const xNum = target.closest("#xNum")
-        console.log(xNum)
+                    const order = orders[i]
+                    let count = order.count[0]
+        
+                    if (carts[i] == dataNum) {
 
-        // //상품의 저장되 있던 idx값을 idx변수에 저장
-        // const idx = purBtnData.getAttribute("data-idx")
-        // console.log("IDX: " + idx)
+                        console.log('im in')
+                        console.log(count)
+                        
+                        count++
 
-        count++
+                        let countStr = `${count}EA`
+                        document.querySelector(`#xCount${i}`).innerHTML = countStr
+                        order.count[0] = count
 
-        document.getElementById('xCount')['data-count'] = count
-
-        console.log(document.getElementById('xCount')['data-count'])
-
+                        break
+                    }
+                    
+                }
+                
             })
         }, false)
 
-    }, false);
-});
+    });
+}, false);
 
 
 
