@@ -87,7 +87,7 @@ xPurBtns.forEach(purBtn => {
         console.log(orders)
 
         for (let i = 0; i < orders.length; i++) {
-            
+
             const order = orders[i]
 
             str += `<div class="d-flex justify-content-center">
@@ -101,12 +101,11 @@ xPurBtns.forEach(purBtn => {
               </div>
                 <div class="row" id="xNum">
                     <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
-                    <a href="#" id="btn-cancel" class="btn btn-secondary">Subtract</a>
+                    <a href="#" id="btn-Subtract" class="btn btn-secondary" data-targetNum="${carts[i]}">Subtract</a>
                 </div>
             </div>
           </div>`
         }
-
         modal.innerHTML = str
 
 
@@ -128,15 +127,91 @@ xPurBtns.forEach(purBtn => {
         
                     if (carts[i] == dataNum) {
 
-                        console.log('im in')
-                        console.log(count)
-                        
                         count++
+                        console.log(count)
 
                         let countStr = `${count}EA`
                         document.querySelector(`#xCount${i}`).innerHTML = countStr
                         order.count[0] = count
 
+                        break
+                    }
+                    
+                }
+                
+            })
+        }, false)
+
+
+        $(document).ready(function() {
+            $(document).on("click",'#btn-Subtract', function(e){
+                e.stopImmediatePropagation()
+                e.preventDefault()
+        
+                //클릭한 요소값을 가져옴
+                const target = e.target
+                const dataNum = target.getAttribute("data-targetNum")
+                console.log(target)
+                console.log("dataNum: ", dataNum)
+
+                for (let i = 0; i < carts.length; i++) {
+
+                    const order = orders[i]
+                    let count = order.count[0]
+        
+                    if (carts[i] == dataNum) {
+
+                        count--
+                        console.log(count)
+
+                        if (count == 0) {
+                            // 해당 order 삭제  order num i를 삭제한다.
+                            orders.splice(i,1)
+                            // orders 주문목록 확인
+                            console.log(orders)
+
+                            // orders가 하나도 없는 경우 처음 페이지로 돌아간다.
+                            if (orders.length == 0) {
+                                alert("The order list is empty.")
+                                window.location.href = "index.html"
+                            }
+                            
+                            for (let j = 0; j < orders.length; j++) {
+
+                                let str = ""
+
+                                // orer.count가 0인 경우인 orer만 제외시키고 다른 메뉴 출력
+                                if (order[i] = orders[j]) {
+                                    continue
+                                } 
+                    
+                                    str += `<div class="d-flex justify-content-center">
+                                    <div class="card" style="width: 10rem;">
+                                    <img src="${order.picture}" class="card-img-top">
+                                    <div class="card-body">
+                                    <h5 class="card-title">${order.name}</h5>
+                                    <div class="row" id="infoDiv">
+                                        <div class="card-text">${order.price}&#8361;</div>
+                                        <div class="xCountClass" id="xCount${i}">${order.count[0]}EA</div>
+                                    </div>
+                                        <div class="row" id="xNum">
+                                            <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
+                                            <a href="#" id="btn-Subtract" class="btn btn-secondary" data-targetNum="${carts[i]}">Subtract</a>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            modal.innerHTML = str
+
+                        }
+
+
+                        let countStr = `${count}EA`
+                        // if (document.querySelector(`#xCount${i}`).innerHTML == null) {
+                        //     console.log("hihi")
+                        // }
+                        document.querySelector(`#xCount${i}`).innerHTML = countStr
+                        order.count[0] = count
                         break
                     }
                     
