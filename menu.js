@@ -101,7 +101,7 @@ xPurBtns.forEach(purBtn => {
               </div>
                 <div class="row" id="xNum">
                     <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
-                    <a href="#" id="btn-cancel" class="btn btn-secondary">Cancel</a>
+                    <a href="#" id="btn-cancel" class="btn btn-secondary">Subtract</a>
                 </div>
             </div>
           </div>`
