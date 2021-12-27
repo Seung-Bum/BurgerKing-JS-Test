@@ -63,11 +63,24 @@ xPurBtns.forEach(purBtn => {
 
         //상품의 저장되 있던 idx값을 idx변수에 저장
         const idx = purBtnData.getAttribute("data-idx")
+        console.log("--------------------------------------")
         console.log("IDX: " + idx)
 
-        carts.push(idx)
-        console.log("CARTS: " + carts)
-
+        if (carts.length != 0) {
+            for (let i = 0; i < carts.length; i++) {
+                if (carts[i]==idx) {
+                    break
+                } else {
+                    carts.push(idx)
+                    console.log("CARTS: " + carts)
+                    break
+                }
+            }
+        } else {
+            carts.push(idx)
+            console.log("CARTS: " + carts)
+        }
+        
         // targetMenu로 저장됨
         const targetMenu = menus[idx]
 
@@ -95,9 +108,11 @@ xPurBtns.forEach(purBtn => {
             <img src="${order.picture}" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">${order.name}</h5>
-              <div class="row" id="infoDiv">
-                <div class="card-text">${order.price}&#8361;</div>
-                <div class="xCountClass" id="xCount${i}">${order.count[0]}EA</div>
+              <div id="infoDiv">
+                <div class="xCountClass" id="xCount${carts[i]}">${order.count[0]}EA</div>
+              </div>
+              <div id="infoDiv">
+                <div class="card-text" id="xPrice${carts[i]}">${order.price * order.count}&#8361;</div>
               </div>
                 <div class="row" id="xNum">
                     <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
@@ -117,23 +132,25 @@ xPurBtns.forEach(purBtn => {
                 //클릭한 요소값을 가져옴
                 const target = e.target
                 const dataNum = target.getAttribute("data-targetNum")
-                console.log(target)
-                console.log("dataNum: ", dataNum)
+                console.log("--------------------------------------")
+                console.log("ADD버튼 눌렀음")
+                console.log("DATANUM: ", dataNum)
 
                 for (let i = 0; i < carts.length; i++) {
 
                     const order = orders[i]
                     let count = order.count[0]
-        
+
                     if (carts[i] == dataNum) {
 
+                        console.log("CARTS: ", carts[i])
                         count++
-                        console.log(count)
+                        console.log("COUNT: ", count)
 
-                        let countStr = `${count}EA`
-                        document.querySelector(`#xCount${i}`).innerHTML = countStr
                         order.count[0] = count
-
+                        let price = count * order.price
+                        document.querySelector(`#xPrice${carts[i]}`).innerHTML = `${price}&#8361;`
+                        document.querySelector(`#xCount${carts[i]}`).innerHTML = `${count}EA`
                         break
                     }
                     
@@ -145,37 +162,37 @@ xPurBtns.forEach(purBtn => {
 
         $(document).ready(function() {
             $(document).on("click",'#btn-Subtract', function(e){
-                console.log("START SUBTARACT")
                 e.stopImmediatePropagation()
                 e.preventDefault()
-
-                let empty = " "
         
                 //클릭한 요소값을 가져옴
                 const target = e.target
                 const dataNum = target.getAttribute("data-targetNum")
-                console.log(target)
-                console.log("dataNum: ", dataNum)
+                console.log("--------------------------------------")
+                console.log("SUB버튼 눌렀음")
+                console.log("DATANUM: ", dataNum)
 
                 for (let i = 0; i < carts.length; i++) {
 
                     const order = orders[i]
                     let count = order.count[0]
                     
-                    
                     if (carts[i] == dataNum) {
-                        console.log("CARTS: ", carts[i])
 
                         count--
-                        console.log(count)
-                        console.log(orders)
+                        console.log("CARTS: ", carts[i])
+                        console.log("COUNT: ", count)
+                        
 
                         if (count == 0) {
                             // 해당 order 삭제  order num i를 삭제한다.
+                            console.log("--------------------------------------")
                             orders.splice(i,1)
-                            console.log("delete complite")
+                            carts.splice(i,1)
+                            console.log("--Delete Complite--")
                             // orders 주문목록 확인
-                            console.log("delete order: ", orders)
+                            console.log("Delete Order: ", orders)
+                            console.log("Delete Carts: ", carts)
 
                             // orders가 하나도 없는 경우 처음 페이지로 돌아간다.
                             if (orders.length == 0) {
@@ -184,42 +201,41 @@ xPurBtns.forEach(purBtn => {
                             }
                             
                             let str = ""
+
                             // orer.count가 0인 경우인 orer만 제외시키고 다른 메뉴 출력
                             for (let j = 0; j < orders.length; j++) {
 
-                                console.log("print")
-                                console.log(orders[j])
+                                console.log("---ORDER LIST 재출력---")
+                                console.log("재출력 확인 CARTS: ", carts[j])
                     
                                     str += `<div class="d-flex justify-content-center">
                                     <div class="card" style="width: 10rem;">
                                     <img src="${orders[j].picture}" class="card-img-top">
                                     <div class="card-body">
                                     <h5 class="card-title">${orders[j].name}</h5>
-                                    <div class="row" id="infoDiv">
-                                        <div class="card-text">${orders[j].price}&#8361;</div>
-                                        <div class="xCountClass" id="xCount${i}">${orders[j].count[0]}EA</div>
-                                    </div>
+                                        <div id="infoDiv">
+                                            <div class="xCountClass" id="xCount${carts[j]}">${orders[j].count[0]}EA</div>
+                                        </div>
+                                        <div id="infoDiv">
+                                            <div class="card-text" id="xPrice${carts[j]}">${orders[j].price * orders[j].count[0]}&#8361;</div>
+                                        </div>
                                         <div class="row" id="xNum">
-                                            <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
-                                            <a href="#" id="btn-Subtract" class="btn btn-secondary" data-targetNum="${carts[i]}">Subtract</a>
+                                            <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[j]}">Add</a>
+                                            <a href="#" id="btn-Subtract" class="btn btn-secondary" data-targetNum="${carts[j]}">Subtract</a>
                                         </div>
                                     </div>
                                 </div>`
 
-                                console.log("in for: ", str)
+                                // console.log("in for: ", str)
                             }
-                            
                             modal.innerHTML = str
+                            break
+                        } else {
+                            order.count[0] = count
+                            let price = count * order.price
+                            document.querySelector(`#xPrice${carts[i]}`).innerHTML = `${price}&#8361;`
+                            document.querySelector(`#xCount${carts[i]}`).innerHTML = `${count}EA`
                         }
-
-                        
-                        if (document.querySelector(`#xCount${i}`).innerHTML == null) {
-                            break 
-                        }
-                        let countStr = `${count}EA`
-                        document.querySelector(`#xCount${i}`).innerHTML != countStr
-                        order.count[0] = count
-                        
                     } 
                 }
             })
