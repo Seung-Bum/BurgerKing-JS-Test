@@ -145,8 +145,11 @@ xPurBtns.forEach(purBtn => {
 
         $(document).ready(function() {
             $(document).on("click",'#btn-Subtract', function(e){
+                console.log("START SUBTARACT")
                 e.stopImmediatePropagation()
                 e.preventDefault()
+
+                let empty = " "
         
                 //클릭한 요소값을 가져옴
                 const target = e.target
@@ -158,17 +161,21 @@ xPurBtns.forEach(purBtn => {
 
                     const order = orders[i]
                     let count = order.count[0]
-        
+                    
+                    
                     if (carts[i] == dataNum) {
+                        console.log("CARTS: ", carts[i])
 
                         count--
                         console.log(count)
+                        console.log(orders)
 
                         if (count == 0) {
                             // 해당 order 삭제  order num i를 삭제한다.
                             orders.splice(i,1)
+                            console.log("delete complite")
                             // orders 주문목록 확인
-                            console.log(orders)
+                            console.log("delete order: ", orders)
 
                             // orders가 하나도 없는 경우 처음 페이지로 돌아간다.
                             if (orders.length == 0) {
@@ -176,23 +183,21 @@ xPurBtns.forEach(purBtn => {
                                 window.location.href = "index.html"
                             }
                             
+                            let str = ""
+                            // orer.count가 0인 경우인 orer만 제외시키고 다른 메뉴 출력
                             for (let j = 0; j < orders.length; j++) {
 
-                                let str = ""
-
-                                // orer.count가 0인 경우인 orer만 제외시키고 다른 메뉴 출력
-                                if (order[i] = orders[j]) {
-                                    continue
-                                } 
+                                console.log("print")
+                                console.log(orders[j])
                     
                                     str += `<div class="d-flex justify-content-center">
                                     <div class="card" style="width: 10rem;">
-                                    <img src="${order.picture}" class="card-img-top">
+                                    <img src="${orders[j].picture}" class="card-img-top">
                                     <div class="card-body">
-                                    <h5 class="card-title">${order.name}</h5>
+                                    <h5 class="card-title">${orders[j].name}</h5>
                                     <div class="row" id="infoDiv">
-                                        <div class="card-text">${order.price}&#8361;</div>
-                                        <div class="xCountClass" id="xCount${i}">${order.count[0]}EA</div>
+                                        <div class="card-text">${orders[j].price}&#8361;</div>
+                                        <div class="xCountClass" id="xCount${i}">${orders[j].count[0]}EA</div>
                                     </div>
                                         <div class="row" id="xNum">
                                             <a href="#" id="btn-add" class="btn btn-secondary" data-targetNum="${carts[i]}">Add</a>
@@ -200,28 +205,25 @@ xPurBtns.forEach(purBtn => {
                                         </div>
                                     </div>
                                 </div>`
-                            }
-                            modal.innerHTML = str
 
+                                console.log("in for: ", str)
+                            }
+                            
+                            modal.innerHTML = str
                         }
 
-
+                        
+                        if (document.querySelector(`#xCount${i}`).innerHTML == null) {
+                            break 
+                        }
                         let countStr = `${count}EA`
-                        // if (document.querySelector(`#xCount${i}`).innerHTML == null) {
-                        //     console.log("hihi")
-                        // }
-                        document.querySelector(`#xCount${i}`).innerHTML = countStr
+                        document.querySelector(`#xCount${i}`).innerHTML != countStr
                         order.count[0] = count
-                        break
-                    }
-                    
+                        
+                    } 
                 }
-                
             })
         }, false)
 
     });
 }, false);
-
-
-
