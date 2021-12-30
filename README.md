@@ -1,5 +1,21 @@
-"# BurgerKing-JS-Test"
+# JavaScript 주문 페이지 만들기 연습
 
-JavaScript를 통해서 동적으로 메뉴를 생성합니다.
+## 📅 Project Name : BurgerKing Order list
 
-생성된 메뉴를 OrderList에 추가, 삭제버튼을 만들어 컨트롤 합니다.
+- javascript로 만든 주문 목록 리스트 입니다.
+
+## ⌨️ Using Skills
+
+- HTML
+- CSS
+- JAVASCRIPT
+
+## 📑 important Functional List
+
+- 'purchase' 버튼을 누르면 order list modal에 등록
+- 각 상품의 add/subtract 버튼을 누르면 수량과 가격, Total Price 갱신
+- 개별 상품의 수량이 0일 경우 order list에서 삭제
+
+## ☑️ Improvements
+
+- information 버튼 누를시 상품의 상세정보를 메모장 파일에서 데이터를 가져와 보여주기

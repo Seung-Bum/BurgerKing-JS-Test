@@ -10,9 +10,22 @@ const menus = [
     {name:'Mushroom Bulgogi', price:6500, picture:'img/mushroomBulgogi.jpg', count: [1]}
 ]
 
+// 주문목록 배열
 const orders = []
+
+// 주문한 상품의 idx만 따로 저장하는 배열 
 const carts = []
 
+//Total Price 계산
+function totalPricePrint () {
+    let totalPrice = 0
+    for (let e = 0; e < orders.length; e++) {
+        const order = orders[e]
+        totalPrice += order.price * order.count
+    }
+    document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
+}
+    
 // 메뉴리스트 생성
 const menuList = document.querySelector("#menuList")
 let str =''
@@ -68,6 +81,8 @@ xPurBtns.forEach(purBtn => {
 
         if (carts.length != 0) {
             for (let i = 0; i < carts.length; i++) {
+                
+                // 중복된 상품의 idx는 carts에 추가하지 않습니다.
                 if (carts[i]==idx) {
                     break
                 } else {
@@ -85,20 +100,25 @@ xPurBtns.forEach(purBtn => {
         const targetMenu = menus[idx]
 
         for (let i = 0; i < orders.length; i++) {
-
+            // 전체 상품의 종류를 넘길 경우 메시지를 보냅니다.
             if (7 < orders.length) {
                 return alert('The order list is too long. please start over!')
             }
-            
+            // 중복된 상품을 누를 경우 메시지를 보냅니다.
             if (targetMenu == orders[i]) {
                 return alert('There is already a product in your order list.')
             }
             
         }
 
+        // 해당 상품을 orderList에 추가
         orders.push(targetMenu)
         console.log(orders)
 
+        // orderList의 등록된 모든상품 출력
+        // order의 idx로 등록할 경우 purchase를 누를때마다 idx값이 변하기 때문에
+        // 변화지 않게 carts에 idx를 담아 활용한다.
+        //   -> carts[i] = 각 order의 idx
         for (let i = 0; i < orders.length; i++) {
 
             const order = orders[i]
@@ -125,12 +145,7 @@ xPurBtns.forEach(purBtn => {
         modal.innerHTML = str
 
         //Total Price 계산
-        let totalPrice = 0
-        for (let i = 0; i < orders.length; i++) {
-            const order = orders[i]
-            totalPrice += order.price * order.count
-        }
-        document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
+        totalPricePrint()
 
         // 상품추가 버튼 이벤트
         $(document).ready(function() {
@@ -162,19 +177,14 @@ xPurBtns.forEach(purBtn => {
                         document.querySelector(`#xCount${carts[i]}`).innerHTML = `${count}EA`
 
                         //Total Price 계산
-                        let totalPrice = 0
-                        for (let j = 0; j < orders.length; j++) {
-                            const order = orders[j]
-                            totalPrice += order.price * order.count
-                        }
-                        document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
+                        totalPricePrint()
                         break
                     }
                 }
             })
         }, false)
 
-
+        // 상품 빼기 버튼
         $(document).ready(function() {
             $(document).on("click",'#btn-Subtract', function(e){
                 e.stopImmediatePropagation()
@@ -246,12 +256,7 @@ xPurBtns.forEach(purBtn => {
                             modal.innerHTML = str
 
                             //Total Price 계산
-                            let totalPrice = 0
-                            for (let e = 0; e < orders.length; e++) {
-                                const order = orders[e]
-                                totalPrice += order.price * order.count
-                            }
-                            document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
+                            totalPricePrint()
                             break
                         } else {
                             order.count[0] = count
@@ -260,12 +265,7 @@ xPurBtns.forEach(purBtn => {
                             document.querySelector(`#xCount${carts[i]}`).innerHTML = `${count}EA`
 
                             //Total Price 계산
-                            let totalPrice = 0
-                            for (let e = 0; e < orders.length; e++) {
-                                const order = orders[e]
-                                totalPrice += order.price * order.count
-                            }
-                            document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
+                            totalPricePrint()
                         }
                     } 
                 }
