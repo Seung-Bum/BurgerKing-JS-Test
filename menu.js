@@ -11,7 +11,6 @@ const menus = [
 ]
 
 const orders = []
-
 const carts = []
 
 // 메뉴리스트 생성
@@ -44,11 +43,12 @@ menuList.innerHTML = str
 
 // 모달창 body
 const modal = document.querySelector("#orderDiv .modal-dialog .modal-content .modal-body")
-
 // 모달창 이벤트 생성
 const xPurBtns = document.querySelectorAll("#purId")
 
-
+// 상품 purchase 버튼 이벤트 -> 누를때마다 idx값은 변경된다.
+//                          -> 누를때마다 idx값을 carts에 담는다.
+//                              -> 중복되는 idx값은 carts에 담지 않는다.
 xPurBtns.forEach(purBtn => {
 	purBtn.addEventListener("click", function (e) {
 
@@ -120,10 +120,19 @@ xPurBtns.forEach(purBtn => {
                 </div>
             </div>
           </div>`
+            
         }
         modal.innerHTML = str
 
+        //Total Price 계산
+        let totalPrice = 0
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i]
+            totalPrice += order.price * order.count
+        }
+        document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
 
+        // 상품추가 버튼 이벤트
         $(document).ready(function() {
             $(document).on("click",'#btn-add', function(e){
                 e.stopImmediatePropagation()
@@ -151,11 +160,17 @@ xPurBtns.forEach(purBtn => {
                         let price = count * order.price
                         document.querySelector(`#xPrice${carts[i]}`).innerHTML = `${price}&#8361;`
                         document.querySelector(`#xCount${carts[i]}`).innerHTML = `${count}EA`
+
+                        //Total Price 계산
+                        let totalPrice = 0
+                        for (let j = 0; j < orders.length; j++) {
+                            const order = orders[j]
+                            totalPrice += order.price * order.count
+                        }
+                        document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
                         break
                     }
-                    
                 }
-                
             })
         }, false)
 
@@ -182,14 +197,15 @@ xPurBtns.forEach(purBtn => {
                         count--
                         console.log("CARTS: ", carts[i])
                         console.log("COUNT: ", count)
-                        
 
+                        // 제품의 count가 0일 경우 
                         if (count == 0) {
-                            // 해당 order 삭제  order num i를 삭제한다.
+                            // 해당 order 삭제  (order num i를 삭제한다. / carts도 같이 삭제)
                             console.log("--------------------------------------")
                             orders.splice(i,1)
                             carts.splice(i,1)
                             console.log("--Delete Complite--")
+
                             // orders 주문목록 확인
                             console.log("Delete Order: ", orders)
                             console.log("Delete Carts: ", carts)
@@ -198,10 +214,10 @@ xPurBtns.forEach(purBtn => {
                             if (orders.length == 0) {
                                 alert("The order list is empty.")
                                 window.location.href = "index.html"
+                                break
                             }
-                            
+            
                             let str = ""
-
                             // orer.count가 0인 경우인 orer만 제외시키고 다른 메뉴 출력
                             for (let j = 0; j < orders.length; j++) {
 
@@ -226,20 +242,34 @@ xPurBtns.forEach(purBtn => {
                                     </div>
                                 </div>`
 
-                                // console.log("in for: ", str)
                             }
                             modal.innerHTML = str
+
+                            //Total Price 계산
+                            let totalPrice = 0
+                            for (let e = 0; e < orders.length; e++) {
+                                const order = orders[e]
+                                totalPrice += order.price * order.count
+                            }
+                            document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
                             break
                         } else {
                             order.count[0] = count
                             let price = count * order.price
                             document.querySelector(`#xPrice${carts[i]}`).innerHTML = `${price}&#8361;`
                             document.querySelector(`#xCount${carts[i]}`).innerHTML = `${count}EA`
+
+                            //Total Price 계산
+                            let totalPrice = 0
+                            for (let e = 0; e < orders.length; e++) {
+                                const order = orders[e]
+                                totalPrice += order.price * order.count
+                            }
+                            document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
                         }
                     } 
                 }
             })
         }, false)
-
     });
 }, false);

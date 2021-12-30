@@ -27,7 +27,6 @@
         video {
           height: 720px;
         }
-
       }
 
       .bd-placeholder-img {
@@ -36,22 +35,6 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
-      }
-
-      #btn-Subtract, #btn-add, #xCount, .card-text {
-        margin-left: 7px;
-      }
-
-      #btn-Subtract, #btn-add {
-        font-size: small;
-      }
-
-      #infoDiv .card-title {
-        text-align: center;
-      }
-
-      #xNum {
-        margin-top: 10px;
       }
 
       body {
@@ -89,6 +72,29 @@
         font-size: 25px;
         color: #ffffff;
       }
+
+      #btn-Subtract, #btn-add, #xCount {
+        margin-left: 7px;
+      }
+
+      #btn-Subtract, #btn-add {
+        font-size: small;
+      }
+
+      #infoDiv .card-title {
+        text-align: center;
+      }
+
+      #xNum {
+        margin-top: 10px;
+      }
+
+      #xTotal {
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 350px;
+      }
+
 
     </style>
 
@@ -165,6 +171,7 @@
                 
               </div>
               <div class="modal-footer">
+                <div id="xTotal">Total Price:</div>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>
