@@ -10,7 +10,7 @@
 - CSS
 - JAVASCRIPT
 
-## 📑 important Functional List
+## 📑 Important Functional List
 
 - 'purchase' 버튼을 누르면 order list modal에 등록
 - 각 상품의 add/subtract 버튼을 누르면 수량과 가격, Total Price 갱신
