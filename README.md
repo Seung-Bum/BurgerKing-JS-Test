@@ -1,5 +1,7 @@
 # JavaScript 주문 페이지 만들기 연습
 
+- 데스크탑 환경에서 확인을 권장합니다.
+
 ## 📅 Project Name : BurgerKing Order list
 
 - javascript로 만든 주문 목록 리스트 입니다.
