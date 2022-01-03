@@ -25,7 +25,7 @@ function totalPricePrint () {
     }
     document.querySelector("#xTotal").innerHTML = `Total Price: ${totalPrice}&#8361;`
 }
-    
+
 // 메뉴리스트 생성
 const menuList = document.querySelector("#menuList")
 let str =''
@@ -43,7 +43,7 @@ for (let i = 0; i < menus.length; i++) {
                             <div id="xBtn-group" class="btn-group" data-idx="${i}">
                                 <!-- Trigger the modal with a button -->
                                 <button type="button" id="purId" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#orderDiv">purchase</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">information</button>
+                                <button type="button" id="burgerInfoBtn" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#infoDiv">information</button>
                             </div>
                         <small class="text-muted" align="right">cooking time<br>10 mins</small>
                     </div>
@@ -52,6 +52,7 @@ for (let i = 0; i < menus.length; i++) {
 
 }
 menuList.innerHTML = str
+
 
 
 // 모달창 body
@@ -273,3 +274,40 @@ xPurBtns.forEach(purBtn => {
         }, false)
     });
 }, false);
+
+
+// information 모달창 body
+const infoModal = document.querySelector("#infoDiv .modal-dialog .modal-content .modal-body")
+// information 모달창 이벤트 생성
+const burgerInfoBtns = document.querySelectorAll("#burgerInfoBtn")
+
+const infomation = []
+
+burgerInfoBtns.forEach(burgerInfoBtn => {
+	burgerInfoBtn.addEventListener("click", function (e) {
+        let str = ""
+
+        //클릭한 요소값을 가져옴
+        const target = e.target
+        const purBtnData = target.closest("#xBtn-group")
+
+        //상품의 저장되 있던 idx값을 idx변수에 저장
+        const idx = purBtnData.getAttribute("data-idx")
+        console.log("--------------------------------------")
+        console.log("IDX: " + idx)
+
+
+        var file = new FileReader()
+        file.onload = () => {
+            // document.getElementById('output').textContent = file.result
+            let burgerInfo = file.result.split('\n')
+            console.log("hi")
+            for (let i = 0; i < burgerInfo.length; i++) {
+              console.log(`index:${i}: ${burgerInfo[i]}`)
+            }
+        }
+        file.readAsText(this.files[0])
+
+
+    })
+})

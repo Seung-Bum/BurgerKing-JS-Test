@@ -9,13 +9,20 @@
     <pre id="output"></pre>
   
     <script type="text/javascript">
+
+      const infomation = []
       document.getElementById('inputFile').addEventListener('change', function() {
-        var file = new FileReader();
+        var file = new FileReader()
         file.onload = () => {
-          document.getElementById('output').textContent = file.result;
+          document.getElementById('output').textContent = file.result
+          let burgerInfo = file.result.split('\n')
+          for (let i = 0; i < burgerInfo.length; i++) {
+            console.log(`index:${i}: ${burgerInfo[i]}`)
+          }
         }
-        file.readAsText(this.files[0]);
+        file.readAsText(this.files[0])
       });
+
     </script>
   </body>
 </html>
