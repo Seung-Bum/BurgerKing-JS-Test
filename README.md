@@ -9,7 +9,7 @@
 ## ⌨️ Using Skills
 
 - HTML
-- CSS
+- CSS(BootStrap)
 - JAVASCRIPT
 
 ## 📑 Important Functional List
