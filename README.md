@@ -17,7 +17,6 @@
 - 'purchase' 버튼을 누르면 order list modal에 등록
 - 각 상품의 add/subtract 버튼을 누르면 수량과 가격, Total Price 갱신
 - 개별 상품의 수량이 0일 경우 order list에서 삭제
-
-## ☑️ Improvements
-
-- information 버튼 누를시 상품의 상세정보를 메모장 파일에서 데이터를 가져와 보여주기
+- 중복 상품을 누를 경우 alert 메시지 동작
+- infomation 버튼 누를시 각 햄버거 정보 alert로 전달(SweetAlert)
+- 반복 재생 동영상을 background로 삽입

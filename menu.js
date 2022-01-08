@@ -43,7 +43,7 @@ for (let i = 0; i < menus.length; i++) {
                             <div id="xBtn-group" class="btn-group" data-idx="${i}">
                                 <!-- Trigger the modal with a button -->
                                 <button type="button" id="purId" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#orderDiv">purchase</button>
-                                <button type="button" id="burgerInfoBtn" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#infoDiv">information</button>
+                                <button type="button" id="burgerInfoBtn" class="btn btn-sm btn-outline-secondary">information</button>
                             </div>
                         <small class="text-muted" align="right">cooking time<br>10 mins</small>
                     </div>
@@ -276,16 +276,13 @@ xPurBtns.forEach(purBtn => {
 }, false);
 
 
-// information 모달창 body
-const infoModal = document.querySelector("#infoDiv .modal-dialog .modal-content .modal-body")
-// information 모달창 이벤트 생성
+// information 이벤트 생성
 const burgerInfoBtns = document.querySelectorAll("#burgerInfoBtn")
-
-const infomation = []
+let xStr = ""
+burgerNameArr = []
 
 burgerInfoBtns.forEach(burgerInfoBtn => {
 	burgerInfoBtn.addEventListener("click", function (e) {
-        let str = ""
 
         //클릭한 요소값을 가져옴
         const target = e.target
@@ -296,18 +293,46 @@ burgerInfoBtns.forEach(burgerInfoBtn => {
         console.log("--------------------------------------")
         console.log("IDX: " + idx)
 
+        let burgers = JSON.stringify(burgerInfo[0]).split(',')
+        let xburger = ""
 
-        var file = new FileReader()
-        file.onload = () => {
-            // document.getElementById('output').textContent = file.result
-            let burgerInfo = file.result.split('\n')
-            console.log("hi")
-            for (let i = 0; i < burgerInfo.length; i++) {
-              console.log(`index:${i}: ${burgerInfo[i]}`)
+        for (let i = 0; i < burgers.length; i++) {
+
+            let burgerName = burgers[i].split(':')[0]
+            burgerName = burgerName.replace(/_/gi, ' ')
+
+            let detail = burgers[i].split(':')[1]
+            
+            let num = burgerName.indexOf(menus[idx].name)
+            
+            if (-1 < num) {
+                console.log(burgerName)
+                console.log(detail)
+                
+                detail = detail.replace(/ /gi, '')
+                detail = detail.replace(/"/gi, '')
+                detail = detail.replace(/t/gi, '')
+                detail = detail.replace(/\\/gi, '_')
+                detail = detail.split('_')
+
+                // 카페인 함량이 없을 경우
+                if (detail[6] == null) {
+                    detail[6] = "0"
+                }
+                
+                xburger = burgerName.replace(/"/gi, '')
+                xStr = `중량(g/ml): ${detail[0]}\n열량(Kcal): ${detail[1]}\n단백질(g): ${detail[2]}`
+                xStr += `\n나트륨(mg): ${detail[3]}\n당류(g): ${detail[4]}\n포화지방(g): ${detail[5]}\n카페인(mg): ${detail[6]}`
             }
         }
-        file.readAsText(this.files[0])
-
-
+        // alert(xStr)
+        Swal.fire({
+            title: `${xburger}`,
+            width: 650,
+            text: `${xStr}`,
+            icon: 'info',
+            confirmButtonText: 'check'
+          })
     })
 })
+
