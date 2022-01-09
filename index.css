@@ -66,6 +66,9 @@ h1 {
   font-weight: bold;
   margin-right: 350px;
 }
+.modal-footer {
+  justify-content: space-between;
+}
 
 @media screen and (max-width: 1198px) {
   #menuList {
